@@ -4,6 +4,8 @@
 int tx = 0;
 int ty = 0;
 
+int theta = 0;
+
 int init(void){
 
     glClearColor(1.0, 1.0, 1.0, 0.0);     //define a cor de fundo
@@ -13,26 +15,51 @@ int init(void){
 
 }
 
-void teclado(int key, int x, int y){
+void transladar(int key, int x, int y){
     switch(key){
-
-	case GLUT_KEY_RIGHT:
-		tx += 1;
-        	glutPostRedisplay();
-		break;
-    	case GLUT_KEY_LEFT:
-		tx -= 1;
-		glutPostRedisplay();
-		break;
-    	case GLUT_KEY_UP:
-		ty += 1;
-		glutPostRedisplay();
-		break;
-    	case GLUT_KEY_DOWN:
-		ty -= 1;
-		glutPostRedisplay();
-		break;
+    	case GLUT_KEY_RIGHT:
+            tx += 1;
+            glutPostRedisplay();
+    		break;
+        case GLUT_KEY_LEFT:
+    		tx -= 1;
+    		glutPostRedisplay();
+    		break;
+        case GLUT_KEY_UP:
+    		ty += 1;
+    		glutPostRedisplay();
+    		break;
+        case GLUT_KEY_DOWN:
+    		ty -= 1;
+    		glutPostRedisplay();
+    		break;
 	}
+}
+
+void rotacionar(int key, int x, int y){
+    switch(key){
+        case GLUT_KEY_RIGHT:
+            theta -= 10;
+            glRotatef(theta, 0, 0, 1);
+            glutPostRedisplay();
+            break;
+        case GLUT_KEY_LEFT:
+            theta += 10;
+            glRotatef(theta, 0, 0, 1);
+            glutPostRedisplay();
+            break;
+    }
+}
+
+void opcao(int key, int x, int y){
+    switch(key){
+        case 't':
+            glutSpecialFunc(transladar);        // captura as teclas especiais
+            break;
+        case 'r':
+            glutSpecialFunc(rotacionar);        // captura as teclas especiais
+            break;
+    }
 }
 
 void display(void){
@@ -59,10 +86,13 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(200,200);
     glutCreateWindow("Um programa OpenGL Exemplo");           //cria a janela de exibição
 
-    init();                          //executa função de inicialização
-    glutSpecialFunc(teclado);
-    glutDisplayFunc(display);        //estabelece a função "display" como a função callback de exibição.
-    glutMainLoop();                  //mostre tudo e espere
+    init();                             // executa função de inicialização
+
+    glutSpecialFunc(transladar);        // captura as teclas especiais
+    glutKeyboardFunc(opcao);            // captura as teclas 'R' e 'T'
+
+    glutDisplayFunc(display);           // estabelece a função "display" como a função callback de exibição.
+    glutMainLoop();                     // mostre tudo e espere
     return 0;
 }
 
