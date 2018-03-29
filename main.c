@@ -40,15 +40,13 @@ void rotacionar(int key, int x, int y){
     switch(key){
         case GLUT_KEY_RIGHT:
             theta -= 10;
-            glRotatef(theta, 0, 0, 1);
-            glutPostRedisplay();
             break;
         case GLUT_KEY_LEFT:
             theta += 10;
-            glRotatef(theta, 0, 0, 1);
-            glutPostRedisplay();
             break;
     }
+
+    glutPostRedisplay();
 }
 
 void opcao(int key, int x, int y){
@@ -67,7 +65,14 @@ void display(void){
     glClear(GL_COLOR_BUFFER_BIT);         //desenha o fundo (limpa a janela)
 
     glColor3f(1.0,0.0,0.0);                 //altera o atributo de cor
-    glBegin(GL_POLYGON);                    //desenha uma linha
+    glMatrixMode(GL_MODELVIEW); // carrega a matriz de modelo
+    glLoadIdentity();           // carrega a matriz identidade
+
+    glTranslatef(tx, ty, 0);
+    glRotatef(theta, 0, 0, 1);
+    glTranslatef(-tx, -ty, 0);
+
+    glBegin(GL_POLYGON);                    // desenha uma linha
         glVertex2i(tx, ty);
         glVertex2i(tx,ty + 10);
         glVertex2i(tx + 10,ty + 10);
@@ -75,7 +80,7 @@ void display(void){
     glEnd();
 
 
-    glFlush();                            //desenha os comandos não executados
+    glFlush();                            // desenha os comandos não executados
 }
 
 int main(int argc, char** argv) {
