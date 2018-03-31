@@ -4,15 +4,16 @@
 int tx = 0;
 int ty = 0;
 
+int tamQuad = 10;       // quadrado 10x10
+
 int theta = 0;
 
 int init(void){
 
-    glClearColor(1.0, 1.0, 1.0, 0.0);     //define a cor de fundo
+    glClearColor(1.0, 1.0, 1.0, 0.0);     // define a cor de fundo
 
-    glMatrixMode(GL_PROJECTION);          //carrega a matriz de projeção
-    gluOrtho2D(0.0,100.0,0.0,100.0);      //define projeção ortogonal 2D
-
+    glMatrixMode(GL_PROJECTION);          // carrega a matriz de projeção
+    gluOrtho2D(0.0,100.0,0.0,100.0);      // define projeção ortogonal 2D
 }
 
 void transladar(int key, int x, int y){
@@ -62,21 +63,21 @@ void opcao(int key, int x, int y){
 
 void display(void){
 
-    glClear(GL_COLOR_BUFFER_BIT);         //desenha o fundo (limpa a janela)
+    glClear(GL_COLOR_BUFFER_BIT);           // desenha o fundo (limpa a janela)
 
-    glColor3f(1.0,0.0,0.0);                 //altera o atributo de cor
-    glMatrixMode(GL_MODELVIEW); // carrega a matriz de modelo
-    glLoadIdentity();           // carrega a matriz identidade
+    glColor3f(1.0,0.0,0.0);                 // altera o atributo de cor
+    glMatrixMode(GL_MODELVIEW);             // carrega a matriz de modelo
+    glLoadIdentity();                       // carrega a matriz identidade
 
-    glTranslatef(tx, ty, 0);
+    glTranslatef(tx+(tamQuad/2), ty+(tamQuad/2), 0);
     glRotatef(theta, 0, 0, 1);
-    glTranslatef(-tx, -ty, 0);
+    glTranslatef(-tx-(tamQuad/2), -ty-(tamQuad/2), 0);
 
     glBegin(GL_POLYGON);                    // desenha uma linha
         glVertex2i(tx, ty);
-        glVertex2i(tx,ty + 10);
-        glVertex2i(tx + 10,ty + 10);
-        glVertex2i(tx + 10, ty);
+        glVertex2i(tx, ty + tamQuad);
+        glVertex2i(tx + tamQuad, ty + tamQuad);
+        glVertex2i(tx + tamQuad, ty);
     glEnd();
 
 
